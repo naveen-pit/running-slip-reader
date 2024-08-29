@@ -13,7 +13,14 @@ lint:
 	poetry run ruff check . && \
 	poetry run mypy .
 
+run_local:
+	cd running_slip_reader; poetry run python -m flask --app main run --debug --port=8000
+
+ngrok:
+	ngrok http 8000
 
 generate:
-	poetry export --without-hashes --format=requirements.txt > running_bot/requirements.txt
+	poetry export --without-hashes --format=requirements.txt > running_slip_reader/requirements.txt
 
+test:
+	poetry run pytest --cov running_slip_reader --cov scripts --cov-report=xml --cov-branch -n auto -m "not slow"
